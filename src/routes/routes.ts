@@ -64,8 +64,6 @@ const routes: Route[] = [
 export default routes;
 
 export const matchRoute = (routePath: Routes, pathname: string) => {
-  console.log("pathname", pathname);
-  console.log("routePath", routePath);
   // Replace dynamic segments with a placeholder
   const routePathWithPlaceholders = routePath.replace(
     /\[.*?\]/g,
@@ -84,7 +82,6 @@ export const matchRoute = (routePath: Routes, pathname: string) => {
   // Create the regex pattern
   const regex = new RegExp(`^${regexPath}$`);
 
-  console.log(regex.test(pathname));
   // Test if the pathname matches the regex
   return regex.test(pathname);
 };

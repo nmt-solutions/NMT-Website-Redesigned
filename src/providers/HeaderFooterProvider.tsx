@@ -3,14 +3,12 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
-import routes, { matchRoute, Routes } from "@/routes/routes";
+import routes, { matchRoute } from "@/routes/routes";
 import { usePathname } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 
 const HeaderFooterProvider = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
-
-  console.log(matchRoute(Routes.Product, pathname));
 
   const showHeader = routes.find((route) =>
     matchRoute(route.path, pathname),
