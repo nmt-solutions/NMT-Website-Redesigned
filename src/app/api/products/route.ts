@@ -12,7 +12,7 @@ export const GET = async () => {
         message: "Products Fetched.",
         data: products,
       } as APIResponse<Product[]>,
-      { status: 500 },
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
