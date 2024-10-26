@@ -1,4 +1,3 @@
-import ContentHeading from "@/components/ContentHeading";
 import LoadingFallback from "@/components/LoadingFallback";
 import MarkDown from "@/components/MarkDown";
 import MaxWidth from "@/components/MaxWidth";
