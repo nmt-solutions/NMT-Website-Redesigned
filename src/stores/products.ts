@@ -32,7 +32,13 @@ const fetchInitialState = async (set: {
     replace: true,
   ): void;
 }) => {
-  const res = await fetch(APIRoutes.Products);
+  const isServer = typeof window === "undefined";
+  const baseUrl = isServer
+    ? process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000" // Adjust the default URL and port as needed
+    : "";
+
+  const res = await fetch(`${baseUrl}${APIRoutes.Products}`);
+
   const parsedResponse: APIResponse<Product[]> = await res.json();
   set((state) => ({ ...state, products: parsedResponse.data as Product[] }));
 };
