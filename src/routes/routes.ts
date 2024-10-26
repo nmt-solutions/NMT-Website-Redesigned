@@ -4,12 +4,17 @@ export enum Routes {
   OurProducts = "/our-products",
   Product = "/our-products/product/[productId]",
   AboutUs = "/about-us",
+  PrivacyPolicy = "/privacy-policy",
+  TermsAndConditions = "/terms-and-conditions",
+  TechnologyStack = "/tech-stack",
+  CustomerSupport = "/customer-support",
+  FAQ = "/faq",
   NotAuthorized = "/not-authorized",
   NotFound = "/not-found",
 }
 
 export enum APIRoutes {
-  AddProduct = "/api/product",
+  Product = "/api/product",
 }
 
 export interface Route {
@@ -46,6 +51,37 @@ const routes: Route[] = [
   {
     name: "Product Details",
     path: Routes.Product,
+    showHeader: true,
+    showFooter: true,
+  },
+  {
+    name: "Technologies",
+    path: Routes.TechnologyStack,
+    isNav: true,
+    showHeader: true,
+    showFooter: true,
+  },
+  {
+    name: "Customer Support",
+    path: Routes.CustomerSupport,
+    showHeader: true,
+    showFooter: true,
+  },
+  {
+    name: "FAQ's",
+    path: Routes.FAQ,
+    showHeader: true,
+    showFooter: true,
+  },
+  {
+    name: "Terms & Conditions",
+    path: Routes.TermsAndConditions,
+    showHeader: true,
+    showFooter: true,
+  },
+  {
+    name: "Privacy Policy",
+    path: Routes.PrivacyPolicy,
     showHeader: true,
     showFooter: true,
   },

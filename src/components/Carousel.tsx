@@ -13,9 +13,11 @@ import Autoplay from "embla-carousel-autoplay";
 
 function CarouselPlugin<T>({
   carouselItems,
+  orientation,
   render,
 }: {
   carouselItems: T[];
+  orientation?: "vertical" | "horizontal";
   render: (item: T, index: number, items: T[]) => React.ReactNode;
 }) {
   const plugin = React.useRef(
@@ -27,6 +29,7 @@ function CarouselPlugin<T>({
       <Carousel
         plugins={[plugin.current]}
         className="w-full max-w-3xl"
+        orientation={orientation}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >

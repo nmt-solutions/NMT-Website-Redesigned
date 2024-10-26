@@ -7,7 +7,7 @@ const OurProducts = () => {
   return (
     <section
       id="our-products"
-      className="h-[calc(100vh-4rem)] flex justify-center items-center w-full"
+      className="min-h-[calc(100vh-4rem)] flex justify-center items-center w-full mb-24"
     >
       <MaxWidth className="py-4 w-full h-full">
         <ContentHeading heading="Our Products" className="mb-20" />

@@ -1,5 +1,5 @@
 import { ProductType } from "@/lib/enums";
-import { technologiesOptions } from "@/lib/static-data";
+import { techOptions } from "@/lib/static-data";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import React, { ChangeEvent, useRef, useState } from "react";
@@ -24,8 +24,7 @@ import { Textarea } from "./ui/textarea";
 import { useProductsStore } from "@/providers/ProductsStoreProvider";
 import { Product } from "@/lib/models";
 import FormButton from "./FormButton";
-import { submitProduct } from "@/server/actions";
-import { APIResponse, APIStatus } from "@/lib/network";
+import { APIResponse } from "@/lib/network";
 import { toast } from "sonner";
 import { APIRoutes } from "@/routes/routes";
 
@@ -66,7 +65,7 @@ const ProductForm = ({
   defaultProduct?: Product;
 }) => {
   const iconRef = useRef<HTMLInputElement | null>(null);
-  // const { addProduct, updateProduct, removeProduct } = useProducts();
+  const sheetCloseRef = useRef<HTMLButtonElement | null>(null);
   const addProduct = useProductsStore((store) => store.addProduct);
   const updateProduct = useProductsStore((store) => store.updateProduct);
   const removeProduct = useProductsStore((store) => store.removeProduct);
@@ -119,13 +118,15 @@ const ProductForm = ({
     });
   };
 
+  console.log(product.technologies);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setProduct((product) => ({ ...product, [e.target.name]: e.target.value }));
   };
 
-  const saveProduct = () => {
+  const saveProduct = (product: Product) => {
     if (Boolean(defaultProduct)) {
       updateProduct(product);
     } else {
@@ -133,25 +134,49 @@ const ProductForm = ({
     }
   };
 
-  const handleDelete = () => {
-    removeProduct(product);
+  const handleDelete = async () => {
+    const deletePromise = fetch(APIRoutes.Product, {
+      method: "DELETE",
+      body: JSON.stringify({ productId: product.productId }),
+    });
+
+    toast.promise(deletePromise, {
+      loading: "Deleting Product...",
+      success: async (data: Response) => {
+        removeProduct(product);
+        const parsedRes: APIResponse<Product> = await data.json();
+        return parsedRes.message;
+      },
+      error: async (data: Response) => {
+        const parsedRes: APIResponse<Product> = await data.json();
+        return parsedRes.message;
+      },
+    });
   };
 
   const formAction = async (formData: FormData) => {
-    const res = await fetch(APIRoutes.AddProduct, {
-      method: "POST",
+    const promise = fetch(APIRoutes.Product, {
+      method: Boolean(defaultProduct) ? "PATCH" : "POST",
       body: formData,
     });
-    const parsedRes: APIResponse<Product> = await res.json();
 
-    if (parsedRes.status === APIStatus.Success) {
-      toast.success(parsedRes.message);
-      saveProduct();
-    } else {
-      toast.error("Error", {
-        description: parsedRes.message,
-      });
-    }
+    toast.promise(promise, {
+      loading: `${
+        Boolean(defaultProduct) ? "Updating" : "Uploading"
+      } Product...`,
+      success: async (data: Response) => {
+        const parsedRes: APIResponse<Product> = await data.json();
+        saveProduct(parsedRes.data!);
+        sheetCloseRef.current?.click();
+        return parsedRes.message;
+      },
+      error: async (data: Response) => {
+        const parsedRes: APIResponse<Product> = await data.json();
+        return parsedRes.message;
+      },
+    });
+
+    await promise;
   };
 
   return (
@@ -161,12 +186,7 @@ const ProductForm = ({
           {defaultProduct ? "Update" : "Add"} {productType} App
         </SheetTitle>
       </SheetHeader>
-      <form
-        className="my-4 flex flex-col gap-4"
-        action={formAction}
-        // method="POST"
-        // onSubmit={handleSubmit}
-      >
+      <form className="my-4 flex flex-col gap-4" action={formAction}>
         <div className="flex flex-col md:flex-row gap-4 md:gap-16 items-center">
           <div>
             <Input
@@ -176,7 +196,6 @@ const ProductForm = ({
               accept="image/png, image/gif, image/jpeg"
               className="hidden"
               onChange={handleFileChange}
-              required
             />
             {product.icon ? (
               <Image
@@ -206,6 +225,15 @@ const ProductForm = ({
               onChange={handleChange}
               required
             />
+            {Boolean(defaultProduct) && (
+              <Input
+                name="productId"
+                placeholder="Product Id"
+                value={product.productId}
+                required
+                readOnly
+              />
+            )}
           </div>
         </div>
         <div>
@@ -225,7 +253,7 @@ const ProductForm = ({
               <Label>Technologies</Label>
               <ComboBox
                 name="Technologies"
-                items={technologiesOptions}
+                items={techOptions}
                 value={product.technologies}
                 onValueChange={handleTechnologyChanged}
               />
@@ -236,7 +264,7 @@ const ProductForm = ({
                 readOnly
               />
               <div className="flex flex-wrap gap-2">
-                {technologiesOptions
+                {techOptions
                   .filter((tech) => product.technologies.includes(tech.value))
                   .map((tech) => (
                     <Badge
@@ -346,10 +374,10 @@ const ProductForm = ({
                 </AlertDialogContent>
               </AlertDialog>
             )}
-            <SheetClose asChild>
+            <SheetClose ref={sheetCloseRef} asChild>
               <Button variant="outline">Close</Button>
             </SheetClose>
-            {/* <SheetClose asChild> */}
+            {/* <SheetClose> */}
             <FormButton label="Save" />
             {/* </SheetClose> */}
           </div>

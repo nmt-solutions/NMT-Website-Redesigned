@@ -15,6 +15,13 @@
       "when": 1729911130662,
       "tag": "0001_bouncy_lady_mastermind",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729941088324,
+      "tag": "0002_wet_cerebro",
+      "breakpoints": true
     }
   ]
 }

@@ -2,9 +2,74 @@ import React from "react";
 import NMTTextLogo from "./NMTTextLogo";
 import MaxWidth from "./MaxWidth";
 import Link from "next/link";
+import { Routes } from "@/routes/routes";
+
+const footerNavs = [
+  {
+    name: "COMPANY",
+    navs: [
+      {
+        name: "About Us",
+        path: Routes.AboutUs,
+        isNav: true,
+        showHeader: true,
+        showFooter: true,
+      },
+      {
+        name: "Terms & Conditions",
+        path: Routes.TermsAndConditions,
+        showHeader: true,
+        showFooter: true,
+      },
+      {
+        name: "Privacy Policy",
+        path: Routes.PrivacyPolicy,
+        showHeader: true,
+        showFooter: true,
+      },
+    ],
+  },
+  {
+    name: "SOLUTIONS",
+    navs: [
+      {
+        name: "Products",
+        path: Routes.OurProducts,
+        isNav: true,
+        showHeader: true,
+        showFooter: true,
+      },
+      {
+        name: "Technologies",
+        path: Routes.TechnologyStack,
+        showHeader: true,
+        showFooter: true,
+      },
+    ],
+  },
+  {
+    name: "HELP",
+    navs: [
+      {
+        name: "Customer Support",
+        path: Routes.CustomerSupport,
+        showHeader: true,
+        showFooter: true,
+      },
+      {
+        name: "FAQ's",
+        path: Routes.FAQ,
+        showHeader: true,
+        showFooter: true,
+      },
+    ],
+  },
+];
 
 const Dot = () => {
-  return <span className="inline-block h-2 w-2 rounded-full bg-white"></span>;
+  return (
+    <span className="inline-block h-1 w-1 md:h-2 md:w-2 rounded-full bg-white"></span>
+  );
 };
 
 const Footer = () => {
@@ -29,7 +94,23 @@ const Footer = () => {
             </h3>
           </section>
           <section className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="flex flex-col gap-6">
+            {footerNavs.map((group) => (
+              <div key={group.name} className="flex flex-col gap-6">
+                <h3>{group.name}</h3>
+                <div className="flex flex-col text-sm gap-1 text-muted-foreground">
+                  {group.navs.map((nav) => (
+                    <Link
+                      key={nav.path}
+                      href={nav.path}
+                      className="hover:text-muted"
+                    >
+                      {nav.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {/* <div className="flex flex-col gap-6">
               <h3>COMPANY</h3>
               <div className="flex flex-col text-sm gap-1 text-muted-foreground">
                 <Link href="#" className="hover:text-muted">
@@ -67,7 +148,7 @@ const Footer = () => {
                   FAQ&apos;s
                 </Link>
               </div>
-            </div>
+            </div> */}
           </section>
         </MaxWidth>
         <MaxWidth>

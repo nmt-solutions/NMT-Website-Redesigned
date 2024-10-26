@@ -42,10 +42,7 @@ const createProductsStore = (initState: ProductsState = defaultInitState) => {
       ...initState,
       addProduct: (product) =>
         set((state) => ({
-          products: [
-            ...state.products,
-            { ...product, productId: (state.products.length + 1).toString() },
-          ],
+          products: [...state.products, product],
         })),
       removeProduct: (product) =>
         set((state) => ({

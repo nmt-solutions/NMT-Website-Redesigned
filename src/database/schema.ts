@@ -4,25 +4,25 @@ import {
   timestamp,
   uuid,
   varchar,
-  customType,
-  integer,
+  // customType,
+  // integer,
 } from "drizzle-orm/pg-core";
 
-const bytea = (name: string) =>
-  customType<{
-    data: Buffer;
-    driverData: Buffer;
-  }>({
-    dataType() {
-      return "bytea";
-    },
-    toDriver(value: Buffer) {
-      return value;
-    },
-    fromDriver(value: Buffer) {
-      return value;
-    },
-  })(name);
+// const bytea = (name: string) =>
+//   customType<{
+//     data: Buffer;
+//     driverData: Buffer;
+//   }>({
+//     dataType() {
+//       return "bytea";
+//     },
+//     toDriver(value: Buffer) {
+//       return value;
+//     },
+//     fromDriver(value: Buffer) {
+//       return value;
+//     },
+//   })(name);
 
 export const Subscriptions = pgTable("subscriptions", {
   subscriptionId: uuid("subscriptionId").defaultRandom().primaryKey(),
@@ -38,18 +38,18 @@ export const Subscriptions = pgTable("subscriptions", {
     .$onUpdate(() => new Date()),
 });
 
-export const Files = pgTable("files", {
-  fileId: uuid("fileId").defaultRandom().primaryKey(),
-  filename: varchar("filename", { length: 255 }).notNull(),
-  mimeType: varchar("mimeType", { length: 100 }).notNull(),
-  data: bytea("data").notNull(),
-  size: integer("size").notNull(),
-  createdAt: timestamp("createdAt").notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt")
-    .notNull()
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-});
+// export const Files = pgTable("files", {
+//   fileId: uuid("fileId").defaultRandom().primaryKey(),
+//   filename: varchar("filename", { length: 255 }).notNull(),
+//   mimeType: varchar("mimeType", { length: 100 }).notNull(),
+//   data: bytea("data").notNull(),
+//   size: integer("size").notNull(),
+//   createdAt: timestamp("createdAt").notNull().defaultNow(),
+//   updatedAt: timestamp("updatedAt")
+//     .notNull()
+//     .defaultNow()
+//     .$onUpdate(() => new Date()),
+// });
 
 export const Products = pgTable("products", {
   productId: uuid("productId").defaultRandom().primaryKey(),

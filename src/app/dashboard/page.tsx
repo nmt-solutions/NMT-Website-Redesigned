@@ -1,8 +1,10 @@
 import AddProducts from "@/components/AddProducts";
 import Greeting from "@/components/Greeting";
+import LoadingFallback from "@/components/LoadingFallback";
 import MaxWidth from "@/components/MaxWidth";
 import Products from "@/components/Products";
-import React from "react";
+import Subscriptions from "@/components/Subscriptions";
+import React, { Suspense } from "react";
 
 const Dashboard = () => {
   return (
@@ -14,6 +16,9 @@ const Dashboard = () => {
           Manage Your Product Showcase
         </h3>
         <Products />
+        <Suspense fallback={<LoadingFallback />}>
+          <Subscriptions />
+        </Suspense>
       </MaxWidth>
     </section>
   );

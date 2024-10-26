@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { technologiesOptions } from "@/lib/static-data";
 import { truncateString } from "@/lib/utils";
-import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
 import { Product } from "@/lib/models";
+import TechBadges from "./TechBadges";
 
 const ProductCard = ({
   product,
@@ -26,6 +25,7 @@ const ProductCard = ({
             height={96}
             width={96}
             className="max-h-16 min-h-16 max-w-16 min-w-16 object-cover rounded-full"
+            priority
           />
           <div className="flex flex-col gap-2">
             <div className="flex gap-4 items-center">
@@ -34,23 +34,17 @@ const ProductCard = ({
                 {product.productType} App
               </p>
             </div>
-            <div className="flex gap-1 flex-wrap">
-              {technologiesOptions
-                .filter((tech) => product.technologies.includes(tech.value))
-                .map((tech) => (
-                  <Badge key={tech.value}>{tech.label}</Badge>
-                ))}
-            </div>
+            <TechBadges technologies={product.technologies} />
           </div>
         </div>
         <p className="my-4 text-muted-foreground text-sm text-start">
           {truncateString(product.description)}
         </p>
-        <div className="text-sm flex justify-around items-center">
+        <div className="text-sm flex justify-around items-center w-full">
           {product.websiteLink && (
             <Link
               href={product.websiteLink}
-              className="text-primary"
+              className="text-primary hover:underline"
               target="_blank"
               onClick={(e) => e.stopPropagation()}
             >
@@ -60,7 +54,7 @@ const ProductCard = ({
           {product.apkLink && (
             <Link
               href={product.apkLink}
-              className="text-primary"
+              className="text-primary hover:underline"
               target="_blank"
               onClick={(e) => e.stopPropagation()}
             >
@@ -70,7 +64,7 @@ const ProductCard = ({
           {product.repositoryLink && (
             <Link
               href={product.repositoryLink}
-              className="text-primary"
+              className="text-primary hover:underline"
               target="_blank"
               onClick={(e) => e.stopPropagation()}
             >

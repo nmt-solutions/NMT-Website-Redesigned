@@ -1,39 +1,9 @@
 import Image from "next/image";
 import MaxWidth from "./MaxWidth";
-import WebIcon from "@/assets/svgs/web.svg";
-import PhoneIcon from "@/assets/svgs/phone.svg";
-import ServerIcon from "@/assets/svgs/server.svg";
-import MaintenanceIcon from "@/assets/svgs/maintenance.svg";
 import { cn, isOdd } from "@/lib/utils";
 import ContentHeading from "./ContentHeading";
 import SkewedHeading from "./SkewedHeading";
-
-const expertises = [
-  {
-    icon: WebIcon,
-    heading: "Web & Mobile App Development",
-    description:
-      "Our team of experienced developers specializes in creating custom web applications using cutting-edge technologies, ensuring high-performance, scalability, and security for your business needs.We offer native mobile app development services for both iOS and Android platforms.",
-  },
-  {
-    icon: PhoneIcon,
-    heading: "Internet of Things / CPS",
-    description:
-      "We specialize in providing state-of-the-art IoT and CPS (Cyber-Physical Systems) solutions to enhance connectivity, efficiency, and data-driven decision-making for your business. Explore our offerings and discover how we can help you harness the power of smart technology.",
-  },
-  {
-    icon: ServerIcon,
-    heading: "Server Integration",
-    description:
-      "Our team has extensive experience in server integration, enabling seamless data exchange, enhanced security, and improved scalability for your apps. We use the latest technologies and industry best practices to deliver the highest level of server integration for our clients.",
-  },
-  {
-    icon: MaintenanceIcon,
-    heading: "24X7 Maintenance & Support",
-    description:
-      "Our maintenance and support services ensure that your app remains up-to-date, secure, and optimized for peak performance. We offer flexible maintenance plans to meet the unique needs of your business, providing ongoing support to help you stay ahead of the competition.",
-  },
-];
+import { expertises } from "@/lib/static-data";
 
 const ExpertiseCard = ({
   icon,
@@ -80,7 +50,7 @@ const OurExpertise = () => {
     <section id="our-expertise">
       <MaxWidth>
         <ContentHeading heading="What We Offer" />
-        <div className="grid grid-cols-1 duration-300 gap-12 group/grid">
+        <div className="grid grid-cols-1 duration-300 gap-12 group/grid mb-12">
           {expertises.map((expertise, index) => (
             <ExpertiseCard
               key={expertise.heading}

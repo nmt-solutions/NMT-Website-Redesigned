@@ -36,10 +36,10 @@ const AddProducts = () => {
         <SheetTrigger asChild>
           <Card
             className="border-dashed h-32 w-32 hover:cursor-pointer hover:bg-slate-50 flex flex-col gap-2 justify-center items-center"
-            onClick={() => setProductType(ProductType.IoT)}
+            onClick={() => setProductType(ProductType.Web)}
           >
             <CirclePlus color="grey" />
-            <p className="text-xs">Add IoT App</p>
+            <p className="text-xs">Add Web App</p>
           </Card>
         </SheetTrigger>
         <SheetContent

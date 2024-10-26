@@ -7,14 +7,18 @@ import { Card } from "@/components/ui/card";
 import { Routes } from "@/routes/routes";
 import Link from "next/link";
 import { useProductsStore } from "@/providers/ProductsStoreProvider";
+import useCarouselOrientation from "@/hooks/useCarouselOrientation";
 
 const ProductCarousel = () => {
   const products = useProductsStore((store) => store.products);
+  const orientation = useCarouselOrientation();
+
   return (
     <>
       {products.length > 0 ? (
         <CarouselPlugin
           carouselItems={products}
+          orientation={orientation}
           render={(product) => (
             <Link
               key={product.productId}

@@ -29,7 +29,7 @@ export default function RootLayout({
             <HeaderFooterProvider>{children}</HeaderFooterProvider>
           </ProductsStoreProvider>
         </ClerkProvider>
-        <Toaster richColors />
+        <Toaster richColors position="bottom-left" />
       </body>
     </html>
   );
