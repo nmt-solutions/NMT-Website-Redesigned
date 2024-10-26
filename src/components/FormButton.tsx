@@ -21,11 +21,11 @@ const FormButton = ({
     <Button
       type="submit"
       disabled={pending}
-      className={cn("flex items-center gap-1 mt-2", className)}
+      className={cn("flex items-center gap-1", className)}
       variant={danger ? "destructive" : "default"}
     >
       {pending ? (
-        <Loader2 className="loader h-4 w-4" />
+        <Loader2 className="loader h-4 w-4 animate-spin" />
       ) : danger ? (
         <CopyX className="h-4-w-4" />
       ) : showSaveIcon ? (

@@ -1,11 +1,10 @@
-import { technologiesOptions } from "@/lib/static-data";
-import { truncateString } from "@/lib/utils";
-
 import Image from "next/image";
 import Link from "next/link";
+import { technologiesOptions } from "@/lib/static-data";
+import { truncateString } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
-import { Product } from "@/lib/enums";
+import { Product } from "@/lib/models";
 
 const ProductCard = ({
   product,
@@ -49,15 +48,32 @@ const ProductCard = ({
         </p>
         <div className="text-sm flex justify-around items-center">
           {product.websiteLink && (
-            <Link href={product.websiteLink}>View Website</Link>
+            <Link
+              href={product.websiteLink}
+              className="text-primary"
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+            >
+              View Website
+            </Link>
           )}
           {product.apkLink && (
-            <Link href={product.apkLink} className="text-primary">
+            <Link
+              href={product.apkLink}
+              className="text-primary"
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+            >
               Download APK
             </Link>
           )}
           {product.repositoryLink && (
-            <Link href={product.repositoryLink} className="text-primary">
+            <Link
+              href={product.repositoryLink}
+              className="text-primary"
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+            >
               View Source Code
             </Link>
           )}

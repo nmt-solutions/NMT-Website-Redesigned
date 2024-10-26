@@ -1,4 +1,4 @@
-import { Product, ProductType } from "@/lib/enums";
+import { ProductType } from "@/lib/enums";
 import { technologiesOptions } from "@/lib/static-data";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
@@ -22,6 +22,12 @@ import { Label } from "./ui/label";
 import { SheetClose, SheetFooter, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Textarea } from "./ui/textarea";
 import { useProductsStore } from "@/providers/ProductsStoreProvider";
+import { Product } from "@/lib/models";
+import FormButton from "./FormButton";
+import { submitProduct } from "@/server/actions";
+import { APIResponse, APIStatus } from "@/lib/network";
+import { toast } from "sonner";
+import { APIRoutes } from "@/routes/routes";
 
 const formFields: { [key in ProductType]: string[] } = {
   [ProductType.IoT]: [
@@ -66,10 +72,10 @@ const ProductForm = ({
   const removeProduct = useProductsStore((store) => store.removeProduct);
   const [product, setProduct] = useState<Product>(
     defaultProduct ?? {
-      icon: "",
-      description: "",
       productName: "",
       productType,
+      icon: "",
+      description: "",
       readmeMarkup: "",
       repositoryLink: "",
       technologies: "",
@@ -119,7 +125,7 @@ const ProductForm = ({
     setProduct((product) => ({ ...product, [e.target.name]: e.target.value }));
   };
 
-  const handleSave = () => {
+  const saveProduct = () => {
     if (Boolean(defaultProduct)) {
       updateProduct(product);
     } else {
@@ -128,7 +134,24 @@ const ProductForm = ({
   };
 
   const handleDelete = () => {
-    setTimeout(() => removeProduct(product), 300);
+    removeProduct(product);
+  };
+
+  const formAction = async (formData: FormData) => {
+    const res = await fetch(APIRoutes.AddProduct, {
+      method: "POST",
+      body: formData,
+    });
+    const parsedRes: APIResponse<Product> = await res.json();
+
+    if (parsedRes.status === APIStatus.Success) {
+      toast.success(parsedRes.message);
+      saveProduct();
+    } else {
+      toast.error("Error", {
+        description: parsedRes.message,
+      });
+    }
   };
 
   return (
@@ -138,7 +161,12 @@ const ProductForm = ({
           {defaultProduct ? "Update" : "Add"} {productType} App
         </SheetTitle>
       </SheetHeader>
-      <form className="my-4 flex flex-col gap-4">
+      <form
+        className="my-4 flex flex-col gap-4"
+        action={formAction}
+        // method="POST"
+        // onSubmit={handleSubmit}
+      >
         <div className="flex flex-col md:flex-row gap-4 md:gap-16 items-center">
           <div>
             <Input
@@ -148,6 +176,7 @@ const ProductForm = ({
               accept="image/png, image/gif, image/jpeg"
               className="hidden"
               onChange={handleFileChange}
+              required
             />
             {product.icon ? (
               <Image
@@ -175,6 +204,7 @@ const ProductForm = ({
               placeholder="Product Name"
               value={product.productName}
               onChange={handleChange}
+              required
             />
           </div>
         </div>
@@ -188,6 +218,7 @@ const ProductForm = ({
                 className="h-20 w-full"
                 value={product.description}
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="w-56 flex flex-col gap-2">
@@ -197,6 +228,12 @@ const ProductForm = ({
                 items={technologiesOptions}
                 value={product.technologies}
                 onValueChange={handleTechnologyChanged}
+              />
+              <Input
+                name="technologies"
+                value={product.technologies}
+                className="hidden"
+                readOnly
               />
               <div className="flex flex-wrap gap-2">
                 {technologiesOptions
@@ -240,6 +277,7 @@ const ProductForm = ({
               className="h-48"
               value={product.readmeMarkup}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="flex flex-col md:flex-row gap-4">
@@ -249,7 +287,7 @@ const ProductForm = ({
                 <Input
                   name="websiteLink"
                   placeholder="Website Link"
-                  value={product.websiteLink}
+                  value={product.websiteLink as string}
                   onChange={handleChange}
                 />
               </div>
@@ -261,8 +299,17 @@ const ProductForm = ({
                 placeholder="Repository Link"
                 value={product.repositoryLink}
                 onChange={handleChange}
+                required
               />
             </div>
+            <Input
+              name="productType"
+              placeholder="ProductType"
+              className="hidden"
+              value={product.productType}
+              readOnly
+              required
+            />
           </div>
         </div>
         <SheetFooter>
@@ -302,9 +349,9 @@ const ProductForm = ({
             <SheetClose asChild>
               <Button variant="outline">Close</Button>
             </SheetClose>
-            <SheetClose asChild>
-              <Button onClick={handleSave}>Save</Button>
-            </SheetClose>
+            {/* <SheetClose asChild> */}
+            <FormButton label="Save" />
+            {/* </SheetClose> */}
           </div>
         </SheetFooter>
       </form>

@@ -8,6 +8,10 @@ export enum Routes {
   NotFound = "/not-found",
 }
 
+export enum APIRoutes {
+  AddProduct = "/api/product",
+}
+
 export interface Route {
   name: string;
   path: Routes;

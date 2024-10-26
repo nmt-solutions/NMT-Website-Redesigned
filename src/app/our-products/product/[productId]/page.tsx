@@ -1,14 +1,82 @@
+import ContentHeading from "@/components/ContentHeading";
+import LoadingFallback from "@/components/LoadingFallback";
+import MarkDown from "@/components/MarkDown";
 import MaxWidth from "@/components/MaxWidth";
-import React from "react";
+import database from "@/database";
+import { CodeXml, Earth, FileCog } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
 
-const ProductDetails = ({}: {
-  params: Promise<{ slug: string }>;
+const Product = async ({ productId }: { productId: string }) => {
+  const product = await database.query.Products.findFirst({
+    where: (columns, { eq }) => eq(columns.productId, productId),
+  });
+  return (
+    <section id={`product-${product?.productId}`}>
+      <div className="flex flex-col justify-center items-center my-4">
+        <Image
+          src={product?.icon as string}
+          alt="Icon"
+          height={160}
+          width={160}
+          className="h-28 w-28 rounded-full object-cover"
+        />
+        <ContentHeading heading={product?.productName as string} />
+        <div className="flex justify-center items-center gap-8">
+          {product?.websiteLink && (
+            <Link
+              href={product.websiteLink}
+              target="_blank"
+              className="flex gap-2 items-center text-primary hover:underline underline-offset-4 text-sm md:text-lg font-medium"
+            >
+              <Earth color="cyan" /> Visit Website
+            </Link>
+          )}
+          {product?.repositoryLink && (
+            <Link
+              href={product.repositoryLink}
+              target="_blank"
+              className="flex gap-2 items-center text-primary hover:underline underline-offset-4 text-sm md:text-lg font-medium"
+            >
+              <CodeXml color="green" /> Source Code
+            </Link>
+          )}
+          {product?.apkLink && (
+            <Link
+              href={product.apkLink}
+              target="_blank"
+              className="flex gap-2 items-center text-primary hover:underline underline-offset-4 text-sm md:text-lg font-medium"
+            >
+              <FileCog color="orange" /> Download APK
+            </Link>
+          )}
+        </div>
+      </div>
+      <p className="my-14 text-sm bg-gradient-to-br from-nmtstart via-nmt to-nmtend p-4 rounded-md text-white md:text-lg font-medium">
+        {product?.description}
+      </p>
+      <div className="bg-muted md:p-4 rounded-md">
+        <Suspense fallback={<LoadingFallback />}>
+          <MarkDown source={product?.readmeMarkup} />
+        </Suspense>
+      </div>
+    </section>
+  );
+};
+
+const ProductDetails = async ({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   return (
-    <section id="product-detail" className="h-[calc(100vh-4rem)]">
+    <section id="product-detail" className="min-h-[calc(100vh-4rem)] md:p-4">
       <MaxWidth className="px-4 md:px-0 py-4">
-        <div></div>
+        <Suspense fallback={<LoadingFallback />}>
+          <Product productId={(await params).productId} />
+        </Suspense>
       </MaxWidth>
     </section>
   );

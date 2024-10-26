@@ -1,11 +1,29 @@
+"use client";
+
+import { APIStatus } from "@/lib/network";
+import { submitSubscrition } from "@/server/actions";
+import { toast } from "sonner";
 import FormButton from "./FormButton";
 import { CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 
 const ContactUsForm = () => {
+  const formAction = async (formData: FormData) => {
+    const res = await submitSubscrition(formData);
+    if (res.status === APIStatus.Success) {
+      toast.success("Newsletter Subscribed.", {
+        description: "Our executive will reach out to you shortly.",
+      });
+    } else {
+      toast.error("Error", {
+        description: res.message,
+      });
+    }
+  };
+
   return (
-    <form>
+    <form action={formAction}>
       <CardHeader className="text-md font-bold">
         Get in touch & Subscribe to our news letter
       </CardHeader>
@@ -32,9 +50,9 @@ const ContactUsForm = () => {
           <Input id="country" name="country" placeholder="Country" required />
         </div>
         <Textarea
-          id="needs"
-          name="needs"
-          placeholder="Tell us about your application/IoT needs..."
+          id="requirement"
+          name="requirement"
+          placeholder="Tell us about your application/IoT requirements..."
           className="mt-4"
           required
         />

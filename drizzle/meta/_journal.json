@@ -8,6 +8,13 @@
       "when": 1729873342021,
       "tag": "0000_wild_captain_cross",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1729911130662,
+      "tag": "0001_bouncy_lady_mastermind",
+      "breakpoints": true
     }
   ]
 }
