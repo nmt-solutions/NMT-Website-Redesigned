@@ -15,6 +15,7 @@ export enum Routes {
 
 export enum APIRoutes {
   Product = "/api/product",
+  Products = "/api/products",
 }
 
 export interface Route {

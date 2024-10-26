@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import ContentHeading from "@/components/ContentHeading";
 import MaxWidth from "@/components/MaxWidth";
 import ProductCarousel from "@/components/ProductCarousel";
+import LoadingFallback from "@/components/LoadingFallback";
 
 const OurProducts = () => {
   return (
@@ -11,7 +12,7 @@ const OurProducts = () => {
     >
       <MaxWidth className="py-4 w-full h-full">
         <ContentHeading heading="Our Products" className="mb-20" />
-        <Suspense fallback="Loading...">
+        <Suspense fallback={<LoadingFallback />}>
           <ProductCarousel />
         </Suspense>
       </MaxWidth>

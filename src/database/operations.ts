@@ -1,4 +1,3 @@
-"use server";
 import "server-only";
 import database from ".";
 import { Product, RawSubscription } from "@/lib/models";

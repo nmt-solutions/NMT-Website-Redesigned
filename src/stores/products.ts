@@ -1,5 +1,6 @@
-import { fetchProducts } from "./../server/actions";
 import { Product } from "@/lib/models";
+import { APIResponse } from "@/lib/network";
+import { APIRoutes } from "@/routes/routes";
 import { createStore } from "zustand/vanilla";
 
 export type ProductsState = {
@@ -31,8 +32,9 @@ const fetchInitialState = async (set: {
     replace: true,
   ): void;
 }) => {
-  const products = await fetchProducts();
-  set((state) => ({ ...state, products: products as Product[] }));
+  const res = await fetch(APIRoutes.Products);
+  const parsedResponse: APIResponse<Product[]> = await res.json();
+  set((state) => ({ ...state, products: parsedResponse.data as Product[] }));
 };
 
 const createProductsStore = (initState: ProductsState = defaultInitState) => {
