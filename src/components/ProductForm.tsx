@@ -27,6 +27,15 @@ import FormButton from "./FormButton";
 import { APIResponse } from "@/lib/network";
 import { toast } from "sonner";
 import { APIRoutes } from "@/routes/routes";
+import { useUploadThing } from "@/hooks/useUploadThing";
+import { ClientUploadedFileData, UploadedFileData } from "uploadthing/types";
+
+type UploadThingResponse =
+  | ClientUploadedFileData<{
+      status: string;
+      file: UploadedFileData;
+    }>[]
+  | undefined;
 
 const formFields: { [key in ProductType]: string[] } = {
   [ProductType.IoT]: [
@@ -69,6 +78,7 @@ const ProductForm = ({
   const addProduct = useProductsStore((store) => store.addProduct);
   const updateProduct = useProductsStore((store) => store.updateProduct);
   const removeProduct = useProductsStore((store) => store.removeProduct);
+  const { startUpload } = useUploadThing("fileUploader");
   const [product, setProduct] = useState<Product>(
     defaultProduct ?? {
       productName: "",
@@ -82,7 +92,6 @@ const ProductForm = ({
       websiteLink: "",
     },
   );
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -117,8 +126,6 @@ const ProductForm = ({
       return { ...product, technologies };
     });
   };
-
-  console.log(product.technologies);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -155,6 +162,88 @@ const ProductForm = ({
   };
 
   const formAction = async (formData: FormData) => {
+    const filesToUpload: File[] = [];
+    const icon = (formData.get("icon") as File) ?? null;
+    const apk = (formData.get("apk") as File) ?? null;
+
+    if (icon.size > 0) filesToUpload.push(icon);
+    if (apk.size > 0) filesToUpload.push(apk);
+
+    const onlyUploadingIcon = icon.size > 0 && apk.size <= 0;
+    const onlyUploadingAPK = icon.size <= 0 && apk.size > 0;
+
+    let isUploadError = false;
+
+    if (filesToUpload.length > 0) {
+      const fileUploadPromise = startUpload(filesToUpload);
+
+      toast.promise(fileUploadPromise, {
+        loading: `Uploading ${filesToUpload.length} Files...`,
+        success: async (res: UploadThingResponse) => {
+          if (onlyUploadingIcon) {
+            if (res?.[0].url) {
+              formData.set("apk", defaultProduct?.icon ?? "");
+              formData.set("icon", res?.[0].url);
+            } else {
+              formData.set("icon", defaultProduct?.apkLink ?? "");
+            }
+          } else if (onlyUploadingAPK) {
+            if (res?.[0].url) {
+              formData.set("icon", defaultProduct?.icon ?? "");
+              formData.set("apk", res?.[0].url);
+            } else {
+              formData.set("apk", defaultProduct?.apkLink ?? "");
+            }
+          } else {
+            if (res?.[0].url) {
+              formData.set("icon", res?.[0].url);
+            } else {
+              formData.set("icon", defaultProduct?.icon ?? "");
+            }
+            if (res?.[1].url) {
+              formData.set("apk", res?.[1].url);
+            } else {
+              formData.set("apk", defaultProduct?.apkLink ?? "");
+            }
+          }
+          if (Boolean(defaultProduct)) {
+            let filesToDelete = "";
+            if (icon.size > 0) {
+              const iconFileId = defaultProduct?.icon?.split("/");
+              if (iconFileId) {
+                filesToDelete = iconFileId.pop() + ";";
+              }
+            }
+            if (apk.size > 0) {
+              const apkFileId = defaultProduct?.apkLink?.split("/");
+              if (apkFileId) {
+                filesToDelete += apkFileId.pop() ?? "";
+              }
+            }
+            formData.set("filesToDelete", filesToDelete);
+          }
+          isUploadError = res == null;
+          return isUploadError
+            ? "Upload Failed."
+            : `${res?.length} Files Uploaded.`;
+        },
+        error: async () => {
+          isUploadError = true;
+          return "Upload Failed.";
+        },
+      });
+
+      await fileUploadPromise;
+    } else {
+      formData.set("icon", defaultProduct?.icon ?? "");
+      formData.set("apk", defaultProduct?.apkLink ?? "");
+    }
+
+    if (isUploadError) {
+      toast.error("Upload Failed.");
+      return;
+    }
+
     const promise = fetch(APIRoutes.Product, {
       method: Boolean(defaultProduct) ? "PATCH" : "POST",
       body: formData,
