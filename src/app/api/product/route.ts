@@ -1,6 +1,5 @@
 import {
   createProduct,
-  deleteFileLocal,
   deleteProduct,
   getProduct,
   updateProduct,
@@ -24,16 +23,6 @@ export const POST = async (req: NextRequest) => {
     const technologies = formData.get("technologies")?.toString() ?? "";
     const apkUrl = formData.get("apk")?.toString() ?? "";
     const websiteLink = formData.get("websiteLink")?.toString() ?? "";
-
-    // let uploadedIconURL: string;
-    // if (icon) {
-    //   uploadedIconURL = await uploadFilesLocal(icon);
-    // }
-
-    // let uploadedAPKURL: string;
-    // if (apk) {
-    //   uploadedAPKURL = await uploadFilesLocal(apk);
-    // }
 
     const addedProduct = await createProduct({
       productName,
@@ -93,28 +82,6 @@ export const PATCH = async (req: NextRequest) => {
         { status: 404 },
       );
     }
-
-    // try {
-    //   if (icon && icon.size > 0) {
-    //     await deleteFileLocal(product.icon);
-    //   }
-
-    //   if (apk && product.apkLink) {
-    //     await deleteFileLocal(product.apkLink);
-    //   }
-    // } catch (error: unknown) {
-    //   console.log(error as Error);
-    // }
-
-    // let uploadedIconURL: string;
-    // if (icon && icon.size > 0) {
-    //   uploadedIconURL = await uploadFilesLocal(icon);
-    // }
-
-    // let uploadedAPKURL: string;
-    // if (apk) {
-    //   uploadedAPKURL = await uploadFilesLocal(apk);/
-    // }
 
     const utapi = new UTApi();
 
@@ -201,14 +168,26 @@ export const DELETE = async (req: NextRequest) => {
       );
     }
 
-    try {
-      await deleteFileLocal(product.icon);
+    const utapi = new UTApi();
 
-      if (product.apkLink) {
-        await deleteFileLocal(product.apkLink);
+    const filesToDelete: string[] = [];
+
+    if (product.icon) {
+      const iconFileId = product.icon.split("/");
+      if (iconFileId) {
+        filesToDelete.push(iconFileId.pop() ?? "");
       }
-    } catch (error: unknown) {
-      console.log(error as Error);
+    }
+
+    if (product.apkLink) {
+      const apkFileId = product.apkLink.split("/");
+      if (apkFileId) {
+        filesToDelete.push(apkFileId.pop() ?? "");
+      }
+    }
+
+    if (filesToDelete.length > 0) {
+      await utapi.deleteFiles(filesToDelete, { keyType: "fileKey" });
     }
 
     return NextResponse.json(
