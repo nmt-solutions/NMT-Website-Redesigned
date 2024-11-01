@@ -11,6 +11,8 @@ import {
 import { cn } from "@/lib/utils";
 import { techOfferings } from "@/lib/static-data";
 
+export const dynamic = "force-static";
+
 const TechOfferingCard = (props: {
   id: string;
   name: string;

@@ -4,6 +4,8 @@ import MaxWidth from "@/components/MaxWidth";
 import NMTTextLogo from "@/components/NMTTextLogo";
 import { policies } from "@/lib/static-data";
 
+export const dynamic = "force-static";
+
 const PrivacyPolicy = () => {
   return (
     <section id="privacy-policy" className="min-h-[calc(100vh-4rem)]">

@@ -3,6 +3,8 @@ import MaxWidth from "@/components/MaxWidth";
 import NMTTextLogo from "@/components/NMTTextLogo";
 import React from "react";
 
+export const dynamic = "force-static";
+
 const ourExpertise = [
   {
     name: "Web Application Development",

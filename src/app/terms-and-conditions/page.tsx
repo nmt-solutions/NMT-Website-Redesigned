@@ -4,6 +4,8 @@ import MaxWidth from "@/components/MaxWidth";
 import NMTTextLogo from "@/components/NMTTextLogo";
 import { termsData } from "@/lib/static-data";
 
+export const dynamic = "force-static";
+
 const TermsAndConditions = () => {
   return (
     <section id="terms-and-conditions">

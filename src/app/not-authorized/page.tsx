@@ -1,6 +1,8 @@
 import { ShieldX } from "lucide-react";
 import React from "react";
 
+export const dynamic = "force-static";
+
 const NotAuthorized = () => {
   return (
     <section id="not-authorized" className="min-h-screen p-6">
