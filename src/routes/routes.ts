@@ -29,10 +29,11 @@ export interface Route {
 
 const routes: Route[] = [
   {
-    name: "Landing Page",
+    name: "Home",
     path: Routes.LandingPage,
     showHeader: true,
     showFooter: true,
+    isNav: true,
   },
   {
     name: "Dashboard",
@@ -108,13 +109,13 @@ export const matchRoute = (routePath: Routes, pathname: string) => {
   // Replace dynamic segments with a placeholder
   const routePathWithPlaceholders = routePath.replace(
     /\[.*?\]/g,
-    "__DYNAMIC__",
+    "__DYNAMIC__"
   );
 
   // Escape special regex characters in the route path, except for our placeholder
   const escapedRoutePath = routePathWithPlaceholders.replace(
     /[.*+?^${}()|[\]\\]/g,
-    "\\$&",
+    "\\$&"
   );
 
   // Replace the placeholder with the regex pattern for dynamic segments
