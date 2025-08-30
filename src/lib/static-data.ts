@@ -114,7 +114,7 @@ export const policies = [
     content1: `If you want to modify, or delete your personal data, you are
           encouraged to do so through the settings in your profile in the
           applicable platform or if you wish to raise a complaint /question on
-          how we have handled your personal data, you can contact at nanomacrotech.solutions@gmail.com .`,
+          how we have handled your personal data, you can contact at support@nmt-solutions.in .`,
   },
 ];
 
@@ -333,11 +333,11 @@ These Terms of Service (“Terms”, “Terms of Service”) govern your use of 
 
 Our Privacy Policy also governs your use of our Service and describes how we collect, protect and disclose information from your use of our web pages. You acknowledge that you have read and understood the Conventions, and acknowledge that you are committed to them.
 
-If you do not agree to (or cannot comply with) Agreements, then you may not use the Service, but please let us know by sending an email to nanomacrotech.solutions@gmail.com to try and find a solution.`,
+If you do not agree to (or cannot comply with) Agreements, then you may not use the Service, but please let us know by sending an email to support@nmt-solutions.in to try and find a solution.`,
   },
   {
     title: "Communication",
-    content: `By using our Service, you agree to subscribe to our newsletters, marketing or promotional materials and other information we may send to you. However, you can unsubscribe to these services by writing to us on nanomacrotech.solutions@gmail.com.`,
+    content: `By using our Service, you agree to subscribe to our newsletters, marketing or promotional materials and other information we may send to you. However, you can unsubscribe to these services by writing to us on support@nmt-solutions.in.`,
   },
   {
     title: "Shopping",
@@ -401,7 +401,7 @@ Additionally, you agree to:
     title: "Copyright Policy",
     content: `We respect the rights of everyone. It is our responsibility to solve and provide you satisfactory results about any claim regarding content posted on the service or website violates the copyright or any other intellectual property rights of others.
 
-If you are the copyright owner, or have been authorized by someone else, and believe that your work was copied in a way that included copyright infringement, please email your claim to nanomacrotech.solutions@gmail.com, with the title: “Copyright infringement” and file a detailed description of the alleged infringement as described below, under "DMCA Notice and the Copyright Infringement Claim Process".
+If you are the copyright owner, or have been authorized by someone else, and believe that your work was copied in a way that included copyright infringement, please email your claim to support@nmt-solutions.in, with the title: “Copyright infringement” and file a detailed description of the alleged infringement as described below, under "DMCA Notice and the Copyright Infringement Claim Process".
 
 You may be liable for damages (including costs and attorneys' fees) for distorting the facts or claims of misconduct for violating any of the content found and/or for your copyright service.`,
   },
@@ -415,11 +415,11 @@ You may be liable for damages (including costs and attorneys' fees) for distorti
 - Your detailed address, active phone number, and email address;
 - Your statement with legal or governing officials' authorization, that the information that you provided regarding copyrighted work is accurate and that you are the owner or authorized personnel to act on behalf of the owner.
 
-You can contact our copyright agent by email at nanomacrotech.solutions@gmail.com.`,
+You can contact our copyright agent by email at support@nmt-solutions.in.`,
   },
   {
     title: "Error Reporting and Feedback",
-    content: `You may provide it directly to nanomacrotech.solutions@gmail.com or by using third-party sites and tools for information and feedback regarding errors, suggestions, issues, complaints, and other issues related to our Service (“Response”). You acknowledge and agree that:
+    content: `You may provide it directly to support@nmt-solutions.in or by using third-party sites and tools for information and feedback regarding errors, suggestions, issues, complaints, and other issues related to our Service (“Response”). You acknowledge and agree that:
 
 (i) You will not retain, obtain, or infringe any copyright or other right, title, or interest in the response;
 
@@ -465,6 +465,6 @@ Our failure to enforce any right or grant of these Terms shall not be construed 
   },
   {
     title: "Contact Us",
-    content: `Please send your feedback, comments, requests for technical assistance by email: nanomacrotech.solutions@gmail.com`,
+    content: `Please send your feedback, comments, requests for technical assistance by email: support@nmt-solutions.in`,
   },
 ];

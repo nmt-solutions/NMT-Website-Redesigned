@@ -10,13 +10,21 @@ import Link from "next/link";
 import NavLink from "./NavLink";
 import NMTTextLogo from "./NMTTextLogo";
 import { Button } from "./ui/button";
+import { useSearchParams } from "next/navigation";
 
 const Header = () => {
   const isAdmin = useAdmin();
 
   const navRoutes = routes.filter(
-    (route) => route.isNav && (route.isAdminRoute ? isAdmin : true),
+    (route) =>
+      route.isNav &&
+      (route.isAdminRoute ? isAdmin : true) &&
+      route.path !== Routes.OurProducts
   );
+
+  const searchParams = useSearchParams();
+
+  const adminLogin = searchParams.get("admin_login") === "true";
 
   return (
     <header className="fixed top-0 left-0 right-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6 z-50">
@@ -50,24 +58,26 @@ const Header = () => {
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="flex w-full md:w-auto items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 bg-transparent">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
+      {adminLogin && (
+        <div className="flex w-full md:w-auto items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 bg-transparent">
+          <form className="ml-auto flex-1 sm:flex-initial">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search products..."
+                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              />
+            </div>
+          </form>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
+      )}
     </header>
   );
 };

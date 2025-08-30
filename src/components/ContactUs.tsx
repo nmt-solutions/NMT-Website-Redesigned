@@ -34,11 +34,11 @@ const ContactUs = () => {
                   className={cn(
                     buttonVariants({ variant: "link" }),
                     "text-sm md:text-md lg:text-xl text-white",
-                    "ml-[-1rem]",
+                    "ml-[-1rem]"
                   )}
-                  href="mailto: nanomacrotech.solutions@gmail.com"
+                  href="mailto: support@nmt-solutions.in"
                 >
-                  nanomacrotech.solutions@gmail.com
+                  support@nmt-solutions.in
                 </Link>
               </article>
             </SkewedHeading>

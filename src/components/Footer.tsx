@@ -32,13 +32,13 @@ const footerNavs = [
   {
     name: "SOLUTIONS",
     navs: [
-      {
-        name: "Products",
-        path: Routes.OurProducts,
-        isNav: true,
-        showHeader: true,
-        showFooter: true,
-      },
+      // {
+      //   name: "Products",
+      //   path: Routes.OurProducts,
+      //   isNav: true,
+      //   showHeader: true,
+      //   showFooter: true,
+      // },
       {
         name: "Technologies",
         path: Routes.TechnologyStack,
