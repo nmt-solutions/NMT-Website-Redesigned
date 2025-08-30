@@ -74,10 +74,10 @@ const Banner = () => {
             Subscribe
           </Link>
           <Link
-            href="/our-products"
+            href="/tech-stack"
             className={buttonVariants({ variant: "outline" })}
           >
-            Our Products
+            Our Tech Stack
           </Link>
         </div>
       </div>
