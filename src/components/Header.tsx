@@ -1,85 +1,81 @@
-import NMTLogo from "@/assets/svgs/nmt-logo.svg";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import useAdmin from "@/hooks/useAdmin";
-import routes, { Routes } from "@/routes/routes";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Menu, Search } from "lucide-react";
-import Image from "next/image";
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
-import NavLink from "./NavLink";
+import { usePathname } from "next/navigation";
 import NMTTextLogo from "./NMTTextLogo";
-import { Button } from "./ui/button";
-import { useSearchParams } from "next/navigation";
-
-const Header = () => {
-  const isAdmin = useAdmin();
-
-  const navRoutes = routes.filter(
-    (route) =>
-      route.isNav &&
-      (route.isAdminRoute ? isAdmin : true) &&
-      route.path !== Routes.OurProducts
-  );
-
-  const searchParams = useSearchParams();
-
-  const adminLogin = searchParams.get("admin_login") === "true";
-
+const links = [
+  { label: "What we do", href: "/#services" },
+  { label: "Our stack", href: "/tech-stack" },
+  { label: "Our projects", href: "/#projects" },
+  { label: "About us", href: "/about-us" },
+];
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [open]);
   return (
-    <header className="fixed top-0 left-0 right-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6 z-50">
-      <nav className="hidden text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 bg-transparent">
-        <Link href={Routes.LandingPage}>
-          <Image src={NMTLogo} alt="NMT Logo" className="h-8 w-8" />
+    <header className="site-header">
+      <div className="shell header-inner">
+        <Link href="/" aria-label="NMT Solutions home" className="brand">
+          <NMTTextLogo />
         </Link>
-        {navRoutes.map((route) => (
-          <NavLink key={route.path} route={route} />
-        ))}
-      </nav>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
+        <nav aria-label="Main navigation" className="desktop-nav">
+          {links.map((link) => (
             <Link
-              href={Routes.LandingPage}
-              className="flex items-center gap-2 w-44"
+              key={link.href}
+              href={link.href}
+              aria-current={pathname === link.href ? "page" : undefined}
             >
-              <Image src={NMTLogo} alt="NMT Logo" className="h-8 w-8" />
-              <NMTTextLogo />
+              {link.label}
             </Link>
-            {navRoutes.map((route) => (
-              <NavLink key={route.path} route={route} />
-            ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
-      {adminLogin && (
-        <div className="flex w-full md:w-auto items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 bg-transparent">
-          <form className="ml-auto flex-1 sm:flex-initial">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-              />
-            </div>
-          </form>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
-      )}
+          ))}
+        </nav>
+        <a className="header-contact" href="/#contact">
+          Let’s talk <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+        <button
+          ref={menuButton}
+          className="menu-toggle"
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+          aria-label={open ? "Close navigation" : "Open navigation"}
+          onClick={() => setOpen((value) => !value)}
+        >
+          {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+        </button>
+      </div>
+      <nav
+        id="mobile-navigation"
+        aria-label="Mobile navigation"
+        className="mobile-nav"
+        hidden={!open}
+      >
+        {links.map((link) => (
+          <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+            {link.label}
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
+        ))}
+        <a href="/#contact" onClick={() => setOpen(false)}>
+          Let’s talk
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </nav>
     </header>
   );
-};
-
-export default Header;
+}

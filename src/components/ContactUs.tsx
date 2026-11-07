@@ -1,57 +1,37 @@
-import Link from "next/link";
-import ContactUsForm from "./ContactUsForm";
-import { buttonVariants } from "./ui/button";
-import { Card } from "./ui/card";
-import ContentHeading from "./ContentHeading";
-import MaxWidth from "./MaxWidth";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import GlobalNetwork from "@/assets/images/global-network.jpg";
-import SkewedHeading from "./SkewedHeading";
-
-const ContactUs = () => {
+import { ArrowUpRight, Mail } from "lucide-react";
+import { site } from "@/lib/site-content";
+export default function ContactUs() {
   return (
-    <section id="subscribe" className="relative min-h-screen p-4">
-      <Image
-        src={GlobalNetwork}
-        alt="Global Network"
-        fill
-        className="h-screen w-screen z-[-10] object-cover"
-      />
-      <MaxWidth className="text-white">
-        <ContentHeading heading="Contact Us" />
-        <div className="flex flex-col md:flex-row md:items-center my-16 gap-8">
-          <div className="mb-4 md:w-1/2 flex flex-col">
-            <SkewedHeading skewedText={false}>
-              <article className="text-lg font-semibold text-start">
-                Still Got Questions?
-                <br />
-                Clarify your queries by emailing us
-                <br />
-                on address below
-                <br />
-                <Link
-                  className={cn(
-                    buttonVariants({ variant: "link" }),
-                    "text-sm md:text-md lg:text-xl text-white",
-                    "ml-[-1rem]"
-                  )}
-                  href="mailto: support@nmt-solutions.in"
-                >
-                  support@nmt-solutions.in
-                </Link>
-              </article>
-            </SkewedHeading>
-          </div>
-          <SkewedHeading skewedText={false} className="md:w-1/2">
-            <Card className="bg-transparent border-none text-white shadow-none">
-              <ContactUsForm />
-            </Card>
-          </SkewedHeading>
+    <section
+      id="contact"
+      className="contact-section"
+      aria-labelledby="contact-heading"
+    >
+      <div className="shell contact-inner">
+        <div>
+          <p className="eyebrow">
+            <span className="tiny-dot" /> A GOOD PLACE TO START
+          </p>
+          <h2 id="contact-heading">
+            What are you
+            <br />
+            thinking of building<span>?</span>
+          </h2>
+          <p>
+            A new idea, a tricky workflow, or a system that could work better.
+            <br className="desktop-break" /> We’d love to hear about it.
+          </p>
         </div>
-      </MaxWidth>
+        <a className="contact-link" href={`mailto:${site.email}`}>
+          <span className="contact-icon">
+            <Mail size={26} aria-hidden="true" />
+          </span>
+          <span>
+            Start a conversation<small>{site.email}</small>
+          </span>
+          <ArrowUpRight size={24} aria-hidden="true" />
+        </a>
+      </div>
     </section>
   );
-};
-
-export default ContactUs;
+}

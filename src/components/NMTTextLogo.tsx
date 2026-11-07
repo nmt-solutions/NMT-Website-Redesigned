@@ -1,14 +1,15 @@
-import React from "react";
-
-const NMTTextLogo = () => {
+export default function NMTTextLogo() {
   return (
-    <span className="flex items-center gap-2">
-      <span className="bg-gradient-to-br from-nmtstart via-nmt to-nmtend px-1 rounded font-bold text-white md:text-lg lg:text-xl">
-        NMT
+    <span className="wordmark">
+      <span className="brand-symbol" aria-hidden="true">
+        <i />
+        <i />
+        <i />
       </span>
-      <span className="text-md  md:text-lg lg:text-xl">Solutions</span>
+      <span>
+        nmt<span className="brand-dot">.</span>
+        <small>solutions</small>
+      </span>
     </span>
   );
-};
-
-export default NMTTextLogo;
+}
