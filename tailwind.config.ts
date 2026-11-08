@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        nmt: "#3e31ab",
-        nmtstart: "#46258d",
-        nmtend: "#2c4df2",
+        nmt: "#4e1a70",
+        nmtstart: "#4e1a70",
+        nmtend: "#2b4cf2",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

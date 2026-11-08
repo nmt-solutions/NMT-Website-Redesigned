@@ -5,72 +5,67 @@ import ContactUs from "@/components/ContactUs";
 import { services } from "@/lib/site-content";
 export const metadata = pageMetadata(
   "About us",
-  "Meet NMT Solutions: a software development partner connecting web, mobile, IoT, and automation through thoughtful design and practical engineering.",
+  "NMT Solutions develops web and mobile applications, IoT systems, APIs, and business automation. Learn about our development process and support.",
   "/about-us",
 );
 export default function About() {
   return (
     <>
       <section className="shell prose-page">
-        <p className="eyebrow">THE PEOPLE BEHIND THE PIECES</p>
-        <h1>
-          Curious minds.
-          <br />
-          Connected thinking.
-        </h1>
+        <p className="eyebrow">About us</p>
+        <h1>NMT Solutions</h1>
         <p className="page-intro">
-          We’re NMT Solutions. We bring software, hardware, and practical
-          problem-solving together to make everyday work a little better.
+          We develop web and mobile applications, IoT systems, and business
+          automation. We also build the APIs and integrations these systems
+          need.
         </p>
         <div className="about-grid">
           <div>
             <h2>
-              Good software starts
+              We build applications
               <br />
-              with understanding.
+              and their integrations.
             </h2>
             <p>
-              We build custom web and mobile applications, connected devices,
-              and the services that make them work together. Our starting point
-              is always the same: understand what you need, who it is for, and
-              what success should look like.
+              We start by agreeing on what the software needs to do, who will
+              use it, and which existing systems it must connect to.
             </p>
             <p>
-              We work across the whole system, from a clear interface to the
-              integrations behind it. That means fewer disconnected pieces and
-              more attention to how the experience works as a whole.
+              Our work covers interface design, application development, server
+              APIs, and device controllers. We choose the tools for each project
+              based on its requirements.
             </p>
             <p>
-              Our work continues through maintenance and support. We want what
-              we build to remain useful as your business and its needs evolve.
+              After deployment, we provide maintenance, integration updates, and
+              technical support.
             </p>
           </div>
           <div className="about-values">
             <div>
-              <h3>Clarity over complexity</h3>
+              <h3>Review during development</h3>
               <p>
-                Thoughtful interfaces and understandable systems make technology
-                easier to use and maintain.
+                You review working versions of the application so we can check
+                the requirements and resolve problems before release.
               </p>
             </div>
             <div>
-              <h3>Collaboration from the start</h3>
+              <h3>Accessibility and testing</h3>
               <p>
-                We ask questions, make ideas tangible, and improve them with
-                you.
+                We check keyboard access, responsive layouts, and the
+                integrations the application depends on.
               </p>
             </div>
             <div>
-              <h3>Care in the details</h3>
+              <h3>Support after deployment</h3>
               <p>
-                Accessibility, reliability, and a considered technology choice
-                belong in the foundation.
+                We help diagnose faults and maintain the application as your
+                requirements change.
               </p>
             </div>
           </div>
         </div>
         <div className="about-page-services">
-          <h2>What we can build together</h2>
+          <h2>Our development services</h2>
           <div className="services-grid">
             {services.map((service) => (
               <article className="service-card" key={service.id}>

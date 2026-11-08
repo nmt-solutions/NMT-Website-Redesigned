@@ -23,14 +23,10 @@ export default function FAQ() {
         }}
       />
       <section className="shell prose-page">
-        <p className="eyebrow">A FEW USEFUL ANSWERS</p>
-        <h1>
-          Good questions.
-          <br />
-          Straight answers.
-        </h1>
+        <p className="eyebrow">NMT Solutions</p>
+        <h1>Frequently asked questions</h1>
         <p className="page-intro">
-          A little more about what we do and how we work.
+          Read about our services, technologies, and project availability.
         </p>
         <div className="faq-list">
           {faqs.map((faq) => (

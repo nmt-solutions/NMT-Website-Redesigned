@@ -1,5 +1,6 @@
 import { pageMetadata } from "@/lib/metadata";
 import ContactUs from "@/components/ContactUs";
+import { site } from "@/lib/site-content";
 export const metadata = pageMetadata(
   "Customer support",
   "Contact NMT Solutions for application maintenance, integration questions, and technical support.",
@@ -9,15 +10,11 @@ export default function Support() {
   return (
     <>
       <section className="shell prose-page">
-        <p className="eyebrow">HERE FOR WHAT COMES NEXT</p>
-        <h1>
-          Let’s keep things
-          <br />
-          working together.
-        </h1>
+        <p className="eyebrow">Customer support</p>
+        <h1>Application support</h1>
         <p className="page-intro">
-          Need help with an application or connected system? Email
-          support@nmt-solutions.in so we can understand what is happening.
+          Email {site.email} for help with an application or connected device.
+          Include the details below so we can investigate.
         </p>
         <ul className="support-list">
           <li>Tell us which application or device you need help with.</li>

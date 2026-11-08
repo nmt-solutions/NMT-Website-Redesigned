@@ -1,9 +1,10 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import type { PropsWithChildren } from "react";
+import { ExperiencePreferences } from "./ExperiencePreferences";
 export default function HeaderFooterProvider({ children }: PropsWithChildren) {
   return (
-    <>
+    <ExperiencePreferences>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -12,6 +13,6 @@ export default function HeaderFooterProvider({ children }: PropsWithChildren) {
         {children}
       </main>
       <Footer />
-    </>
+    </ExperiencePreferences>
   );
 }

@@ -53,7 +53,7 @@ export const policies = [
     content1: `If you want to modify, or delete your personal data, you are
           encouraged to do so through the settings in your profile in the
           applicable platform or if you wish to raise a complaint /question on
-          how we have handled your personal data, you can contact at support@nmt-solutions.in .`,
+          how we have handled your personal data, you can contact at wafa.khan@nmtsolutions.in .`,
   },
 ];
 
@@ -64,21 +64,21 @@ export const termsData = [
   },
   {
     title: "Terms & Conditions",
-    content: `Welcome to NMT Solutions (“Company”, “we”, “our”, “we”)!
+    content: `Welcome to NMT Solutions ("Company", "we", "our", "we")!
 
-These Terms of Service (“Terms”, “Terms of Service”) govern your use of the website available at NMT Solutions (together with each “Service”) used by NMT Solutions.
+These Terms of Service ("Terms", "Terms of Service") govern your use of the website available at NMT Solutions (together with each "Service") used by NMT Solutions.
 
 Our Privacy Policy also governs your use of our Service and describes how we collect, protect and disclose information from your use of our web pages. You acknowledge that you have read and understood the Conventions, and acknowledge that you are committed to them.
 
-If you do not agree to (or cannot comply with) Agreements, then you may not use the Service, but please let us know by sending an email to support@nmt-solutions.in to try and find a solution.`,
+If you do not agree to (or cannot comply with) Agreements, then you may not use the Service, but please let us know by sending an email to wafa.khan@nmtsolutions.in to try and find a solution.`,
   },
   {
     title: "Communication",
-    content: `By using our Service, you agree to subscribe to our newsletters, marketing or promotional materials and other information we may send to you. However, you can unsubscribe to these services by writing to us on support@nmt-solutions.in.`,
+    content: `By using our Service, you agree to subscribe to our newsletters, marketing or promotional materials and other information we may send to you. However, you can unsubscribe to these services by writing to us on wafa.khan@nmtsolutions.in.`,
   },
   {
     title: "Shopping",
-    content: `If you wish to purchase any product or service available (“Buy”), you may be required to provide certain information related to your Purchase, but not limited to, your credit or bank card number, the expiry date of your card, your billing address, and your shipping information. You represent and accept that:
+    content: `If you wish to purchase any product or service available ("Buy"), you may be required to provide certain information related to your Purchase, but not limited to, your credit or bank card number, the expiry date of your card, your billing address, and your shipping information. You represent and accept that:
 
 (i) you have the legal right to use any cards or other payment methods in connection with any Purchase; and
 
@@ -94,7 +94,7 @@ We reserve the right to reject or cancel your order on suspicion of fraud or una
   },
   {
     title: "Competitions and Promotions",
-    content: `Any contests or other promotion (inclusive, “Promotions”) made available by the Service may be governed by the rules contrary to these Terms of Service. If you are participating in any of the promotions or contests, please review the applicable laws and our Privacy Policy.`,
+    content: `Any contests or other promotion (inclusive, "Promotions") made available by the Service may be governed by the rules contrary to these Terms of Service. If you are participating in any of the promotions or contests, please review the applicable laws and our Privacy Policy.`,
   },
   {
     title: "Refunds",
@@ -138,7 +138,7 @@ Additionally, you agree to:
     title: "Copyright Policy",
     content: `We respect the rights of everyone. It is our responsibility to solve and provide you satisfactory results about any claim regarding content posted on the service or website violates the copyright or any other intellectual property rights of others.
 
-If you are the copyright owner, or have been authorized by someone else, and believe that your work was copied in a way that included copyright infringement, please email your claim to support@nmt-solutions.in, with the title: “Copyright infringement” and file a detailed description of the alleged infringement as described below, under "DMCA Notice and the Copyright Infringement Claim Process".
+If you are the copyright owner, or have been authorized by someone else, and believe that your work was copied in a way that included copyright infringement, please email your claim to wafa.khan@nmtsolutions.in, with the title: "Copyright infringement" and file a detailed description of the alleged infringement as described below, under "DMCA Notice and the Copyright Infringement Claim Process".
 
 You may be liable for damages (including costs and attorneys' fees) for distorting the facts or claims of misconduct for violating any of the content found and/or for your copyright service.`,
   },
@@ -152,11 +152,11 @@ You may be liable for damages (including costs and attorneys' fees) for distorti
 - Your detailed address, active phone number, and email address;
 - Your statement with legal or governing officials' authorization, that the information that you provided regarding copyrighted work is accurate and that you are the owner or authorized personnel to act on behalf of the owner.
 
-You can contact our copyright agent by email at support@nmt-solutions.in.`,
+You can contact our copyright agent by email at wafa.khan@nmtsolutions.in.`,
   },
   {
     title: "Error Reporting and Feedback",
-    content: `You may provide it directly to support@nmt-solutions.in or by using third-party sites and tools for information and feedback regarding errors, suggestions, issues, complaints, and other issues related to our Service (“Response”). You acknowledge and agree that:
+    content: `You may provide it directly to wafa.khan@nmtsolutions.in or by using third-party sites and tools for information and feedback regarding errors, suggestions, issues, complaints, and other issues related to our Service ("Response"). You acknowledge and agree that:
 
 (i) You will not retain, obtain, or infringe any copyright or other right, title, or interest in the response;
 
@@ -202,6 +202,6 @@ Our failure to enforce any right or grant of these Terms shall not be construed 
   },
   {
     title: "Contact Us",
-    content: `Please send your feedback, comments, requests for technical assistance by email: support@nmt-solutions.in`,
+    content: `Please send your feedback, comments, requests for technical assistance by email: wafa.khan@nmtsolutions.in`,
   },
 ];

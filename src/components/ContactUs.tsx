@@ -10,16 +10,16 @@ export default function ContactUs() {
       <div className="shell contact-inner">
         <div>
           <p className="eyebrow">
-            <span className="tiny-dot" /> A GOOD PLACE TO START
+            <span className="tiny-dot" /> Contact us
           </p>
           <h2 id="contact-heading">
-            What are you
+            Tell us what you
             <br />
-            thinking of building<span>?</span>
+            need to build<span>.</span>
           </h2>
           <p>
-            A new idea, a tricky workflow, or a system that could work better.
-            <br className="desktop-break" /> We’d love to hear about it.
+            Describe your requirements and the systems you already use.
+            <br className="desktop-break" /> Email us to discuss the work.
           </p>
         </div>
         <a className="contact-link" href={`mailto:${site.email}`}>
@@ -27,7 +27,7 @@ export default function ContactUs() {
             <Mail size={26} aria-hidden="true" />
           </span>
           <span>
-            Start a conversation<small>{site.email}</small>
+            Email NMT Solutions<small>{site.email}</small>
           </span>
           <ArrowUpRight size={24} aria-hidden="true" />
         </a>

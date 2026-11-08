@@ -1,14 +1,10 @@
 "use client";
 import { useState } from "react";
-import dynamic from "next/dynamic";
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Layers3, Minus, Plus } from "lucide-react";
+import { AnimatePresence, m } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { stackGroups } from "@/lib/site-content";
-import SceneFallback from "./SceneFallback";
-const Scene = dynamic(() => import("./Scene"), {
-  ssr: false,
-  loading: () => <SceneFallback stack />,
-});
+import TechnologyDiagram from "./TechnologyDiagram";
+import { useExperiencePreferences } from "@/providers/ExperiencePreferences";
 
 export default function TechStack({
   standalone = false,
@@ -18,8 +14,12 @@ export default function TechStack({
   paused?: boolean;
 }) {
   const [selected, setSelected] = useState(0);
-  const [expanded, setExpanded] = useState(true);
-  const reduced = useReducedMotion();
+  const {
+    paused: globallyPaused,
+    setPaused,
+    reducedMotion,
+  } = useExperiencePreferences();
+  const noMotion = paused || globallyPaused || reducedMotion;
   const active = stackGroups[selected];
   return (
     <section
@@ -30,60 +30,42 @@ export default function TechStack({
       <div className="shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">02 / THE TOOLS BEHIND THE THINKING</p>
+            <p className="eyebrow">02 / Our technology stack</p>
             {standalone ? (
               <h1 id="stack-heading">
-                A thoughtful stack.
+                The tools we use
                 <br />
-                <span>Built layer by layer.</span>
+                <span>to build your application.</span>
               </h1>
             ) : (
               <h2 id="stack-heading">
-                Good tools.
+                Our technology stack.
                 <br />
-                <span>Better together.</span>
+                <span>What each tool does.</span>
               </h2>
             )}
           </div>
           <p>
-            Each layer has a purpose.
+            Choose a category to see its tools
             <br />
-            Explore how the pieces fit together.
+            and how we use them.
           </p>
         </div>
         <div className="stack-workbench">
-          <div className="stack-visual">
-            <span className="scene-label">
-              <Layers3 size={14} aria-hidden="true" /> ANATOMY OF AN APPLICATION
-            </span>
-            <Scene
-              mode="stack"
-              selected={selected}
-              onSelect={setSelected}
-              expanded={expanded}
-              paused={paused || Boolean(reduced)}
+          <div className="stack-visual stack-diagram-visual">
+            <TechnologyDiagram
+              key={active.id}
+              category={active.id}
+              paused={paused || globallyPaused}
+              reducedMotion={reducedMotion}
+              onTogglePause={() => setPaused(!(paused || globallyPaused))}
             />
-            <div className="stack-visual-footer">
-              <span>SELECT A LAYER TO EXPLORE</span>
-              <button
-                className="quiet-button"
-                aria-pressed={expanded}
-                onClick={() => setExpanded((value) => !value)}
-              >
-                {expanded ? (
-                  <Minus size={14} aria-hidden="true" />
-                ) : (
-                  <Plus size={14} aria-hidden="true" />
-                )}
-                {expanded ? "Assemble layers" : "Separate layers"}
-              </button>
-            </div>
           </div>
           <div className="stack-content">
             <div
               className="stack-selectors"
               role="group"
-              aria-label="Explore technology layers"
+              aria-label="Explore technology categories"
             >
               {stackGroups.map((group, index) => (
                 <button
@@ -101,12 +83,12 @@ export default function TechStack({
               <AnimatePresence mode="wait" initial={false}>
                 <m.div
                   key={active.id}
-                  initial={{ opacity: 0.5, y: reduced || paused ? 0 : 6 }}
+                  initial={{ opacity: 0.5, y: noMotion ? 0 : 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0.5 }}
                   transition={{ duration: 0.14 }}
                 >
-                  <span className="small-label">LAYER {active.number}</span>
+                  <span className="small-label">Category {active.number}</span>
                   <h3>{active.title}</h3>
                   <p>{active.description}</p>
                   <div className="technology-list">
@@ -139,9 +121,9 @@ export default function TechStack({
         </div>
         {standalone && (
           <div className="stack-directory">
-            <h2>The full toolkit</h2>
+            <h2>All technologies</h2>
             <p>
-              Tools are chosen for the problem. A project uses the layers it
+              Tools are chosen for the problem. A project uses the tools it
               needs.
             </p>
             <div className="directory-grid">

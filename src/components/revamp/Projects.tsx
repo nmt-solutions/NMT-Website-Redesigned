@@ -90,15 +90,15 @@ export default function Projects() {
       <div className="shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">03 / IDEAS TAKING SHAPE</p>
+            <p className="eyebrow">03 / Our projects</p>
             <h2 id="projects-heading">
-              On our workbench<span>.</span>
+              Current and legacy projects<span>.</span>
             </h2>
           </div>
           <p>
-            What we’re working on next,
+            Projects in development
             <br />
-            and a little of where we started.
+            and the legacy Control Nest.
           </p>
         </div>
         <div className="project-grid">
@@ -121,7 +121,7 @@ export default function Projects() {
                     <span />
                     {project.status === "Upcoming"
                       ? "In development"
-                      : "Legacy"}
+                      : project.status}
                   </span>
                   <span className="project-index">NMT / 0{index + 1}</span>
                   <ProjectIllustration
@@ -146,11 +146,25 @@ export default function Projects() {
                     href={`/projects/${project.slug}`}
                   >
                     {project.status === "Legacy"
-                      ? "About the original"
-                      : "Explore the idea"}
+                      ? "About this version"
+                      : "Project details"}
                     <ArrowRight size={15} aria-hidden="true" />
                     <span className="sr-only">: {project.name}</span>
                   </Link>
+                  {project.websiteUrl && (
+                    <a
+                      className="text-link project-website"
+                      href={project.websiteUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Visit website
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                      <span className="sr-only">
+                        , {project.name}, opens in a new tab
+                      </span>
+                    </a>
+                  )}
                 </div>
               </article>
             );

@@ -19,7 +19,7 @@ export const organizationSchema = {
       url: site.url,
       email: site.email,
       description: site.description,
-      logo: `${site.url}/icon.png`,
+      logo: `${site.url}/brand/nmt-logo.svg`,
       knowsAbout: services.map((service) => service.name),
     },
     {
@@ -44,7 +44,7 @@ export const organizationSchema = {
       itemListElement: projects.map((project, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        name: `${project.name} (${project.status})`,
+        name: `${project.name}. ${project.status}`,
         url: `${site.url}/projects/${project.slug}`,
       })),
     },

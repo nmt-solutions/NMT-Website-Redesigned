@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Keep production verification separate from a running dev server when needed.
+  distDir: process.env.NMT_BUILD_DIR || ".next",
   poweredByHeader: false,
   async headers() {
     return [

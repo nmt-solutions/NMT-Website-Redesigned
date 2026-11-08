@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { projects, site } from "@/lib/site-content";
+import { projects, site, controlNestDetails } from "@/lib/site-content";
 import { StructuredData } from "@/components/revamp/StructuredData";
 import { pageMetadata } from "@/lib/metadata";
 type Props = { params: { slug: string } };
@@ -14,7 +14,7 @@ export function generateMetadata({ params }: Props): Metadata {
   const project = projects.find((project) => project.slug === params.slug);
   if (!project) return {};
   return pageMetadata(
-    `${project.name} — ${project.status}`,
+    `${project.name}. ${project.status}`,
     project.description,
     `/projects/${project.slug}`,
   );
@@ -29,14 +29,15 @@ export default function ProjectPage({ params }: Props) {
           "@context": "https://schema.org",
           "@type": "WebPage",
           url: `${site.url}/projects/${project.slug}`,
-          name: `${project.name} — ${project.status}`,
+          name: `${project.name}. ${project.status}`,
           description: project.description,
           about: {
             "@type": "CreativeWork",
             name: project.name,
             description: project.overview,
             creativeWorkStatus:
-              project.status === "Legacy" ? "Legacy" : "In development",
+              project.status === "Upcoming" ? "In development" : project.status,
+            url: project.websiteUrl || `${site.url}/projects/${project.slug}`,
             creator: {
               "@id": `${site.url}/#organization`,
               "@type": "Organization",
@@ -74,18 +75,12 @@ export default function ProjectPage({ params }: Props) {
           className={`project-status ${project.status === "Legacy" ? "status-legacy" : ""}`}
         >
           <span />
-          {project.status === "Legacy"
-            ? "Legacy project"
-            : "Upcoming · In development"}
+          {project.status === "Upcoming" ? "In development" : project.status}
         </span>
         <p className="page-intro">{project.description}</p>
         <div className="detail-grid">
           <section>
-            <h2>
-              {project.status === "Legacy"
-                ? "A part of our story"
-                : "The idea we’re building"}
-            </h2>
+            <h2>Project overview</h2>
             <p>{project.overview}</p>
             <ul>
               {project.highlights.map((highlight) => (
@@ -99,15 +94,30 @@ export default function ProjectPage({ params }: Props) {
           <section>
             <h2>
               {project.slug === "control-nest-v2"
-                ? "Technology foundations"
-                : "At a glance"}
+                ? "Technologies"
+                : "Project scope"}
             </h2>
             <ul className="service-tags">
               {project.technologies.map((technology) => (
                 <li key={technology}>{technology}</li>
               ))}
             </ul>
-            <Link href="/#contact" className="button button-primary">
+            {project.websiteUrl && (
+              <a
+                className="button button-primary"
+                href={project.websiteUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Visit Control Nest
+                <ArrowUpRight size={16} aria-hidden="true" />
+                <span className="sr-only">, opens in a new tab</span>
+              </a>
+            )}
+            <Link
+              href="/#contact"
+              className={`button ${project.websiteUrl ? "button-secondary" : "button-primary"}`}
+            >
               Ask us about{" "}
               {project.name === "Lead Follow-up & Booking Automation"
                 ? "this project"
@@ -117,13 +127,39 @@ export default function ProjectPage({ params }: Props) {
             {project.status === "Legacy" && (
               <p style={{ marginTop: 24 }}>
                 <Link href="/projects/control-nest-v2" className="text-link">
-                  Explore the upcoming Control Nest v2
+                  View Control Nest v2
                   <ArrowUpRight size={14} aria-hidden="true" />
                 </Link>
               </p>
             )}
           </section>
         </div>
+        {project.slug === "control-nest-v2" && (
+          <div className="project-features">
+            <h2>What Control Nest v2 does</h2>
+            {controlNestDetails.map((detail) => (
+              <section key={detail.heading}>
+                <h3>{detail.heading}</h3>
+                <p>{detail.body}</p>
+              </section>
+            ))}
+            <nav
+              className="project-resources"
+              aria-label="Control Nest resources"
+            >
+              <a
+                className="text-link"
+                href="https://controlnest.nmt-solutions.in/guide"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Setup guide
+                <ArrowUpRight size={15} aria-hidden="true" />
+                <span className="sr-only">, opens in a new tab</span>
+              </a>
+            </nav>
+          </div>
+        )}
       </article>
     </>
   );

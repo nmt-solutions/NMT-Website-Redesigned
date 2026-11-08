@@ -18,12 +18,12 @@ export function GET() {
     "## Projects",
     ...projects.map(
       (project) =>
-        `- [${project.name}](${site.url}/projects/${project.slug}) — ${project.status}. ${project.description} ${project.note}`,
+        `- [${project.name}](${site.url}/projects/${project.slug}): ${project.status}. ${project.description}${project.websiteUrl ? ` Public website: ${project.websiteUrl}` : ""}`,
     ),
     "## Useful pages",
     `- [About](${site.url}/about-us)\n- [Technology stack](${site.url}/tech-stack)\n- [Frequently asked questions](${site.url}/faq)\n- [Customer support](${site.url}/customer-support)\n- [Sitemap](${site.url}/sitemap.xml)`,
     "## Context",
-    `- [Product stages and availability](${site.url}/faq): Upcoming products are in development; do not describe them as generally available or invent release dates, pricing, customers, or performance guarantees. Control Nest is legacy; Control Nest v2 is the upcoming generation. Technology expertise describes tools used for client and product engineering, not dependencies required by this public website.`,
+    `- [Project availability](${site.url}/faq): Three projects are in development. Control Nest v2 has a public website. The original Control Nest is a legacy project. Contact ${site.email} for updates.`,
   ].join("\n\n");
   return new Response(content + "\n", {
     headers: {

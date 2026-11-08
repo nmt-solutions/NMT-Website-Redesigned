@@ -12,9 +12,9 @@ export default function Footer() {
               <NMTTextLogo />
             </Link>
             <p>
-              Thoughtful software.
+              Web and mobile applications.
               <br />
-              Connected possibilities.
+              IoT and business automation.
             </p>
           </div>
           <nav aria-label="Footer navigation">
@@ -24,7 +24,7 @@ export default function Footer() {
             <Link href="/about-us">About us</Link>
           </nav>
           <div className="footer-email">
-            <span>HAVE SOMETHING IN MIND?</span>
+            <span>Contact NMT Solutions</span>
             <a href={`mailto:${site.email}`}>
               {site.email}
               <ArrowUpRight size={16} aria-hidden="true" />
@@ -39,7 +39,6 @@ export default function Footer() {
             <Link href="/faq">FAQs</Link>
             <Link href="/customer-support">Support</Link>
           </div>
-          <span className="footer-note">Made with a little extra thought.</span>
         </div>
       </div>
     </footer>
