@@ -1,17 +1,15 @@
-import Banner from "@/components/Banner";
-import CampaignBanner from "@/components/CampaignBanner";
-import ContactUs from "@/components/ContactUs";
-import OurExpertise from "@/components/OurExpertise";
-
-export const dynamic = "force-static";
-
+import type { Metadata } from "next";
+import HomeExperience from "@/components/revamp/HomeExperience";
+import {
+  StructuredData,
+  organizationSchema,
+} from "@/components/revamp/StructuredData";
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default function Home() {
   return (
     <>
-      <Banner />
-      <CampaignBanner />
-      <OurExpertise />
-      <ContactUs />
+      <StructuredData data={organizationSchema} />
+      <HomeExperience />
     </>
   );
 }

@@ -1,85 +1,225 @@
-import NMTLogo from "@/assets/svgs/nmt-logo.svg";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import useAdmin from "@/hooks/useAdmin";
-import routes, { Routes } from "@/routes/routes";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Menu, Search } from "lucide-react";
-import Image from "next/image";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  MotionConfig,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+import {
+  ArrowUpRight,
+  Code2,
+  FolderOpen,
+  Layers3,
+  Menu,
+  Pause,
+  Play,
+  Users,
+  X,
+} from "lucide-react";
 import Link from "next/link";
-import NavLink from "./NavLink";
+import { usePathname } from "next/navigation";
+import { useExperiencePreferences } from "@/providers/ExperiencePreferences";
 import NMTTextLogo from "./NMTTextLogo";
-import { Button } from "./ui/button";
-import { useSearchParams } from "next/navigation";
 
-const Header = () => {
-  const isAdmin = useAdmin();
+const links = [
+  { label: "What we do", href: "/#services", section: "services", icon: Code2 },
+  { label: "Our stack", href: "/tech-stack", section: "stack", icon: Layers3 },
+  {
+    label: "Our projects",
+    href: "/#projects",
+    section: "projects",
+    icon: FolderOpen,
+  },
+  { label: "About us", href: "/about-us", section: "about", icon: Users },
+];
 
-  const navRoutes = routes.filter(
-    (route) =>
-      route.isNav &&
-      (route.isAdminRoute ? isAdmin : true) &&
-      route.path !== Routes.OurProducts
-  );
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<number | null>(0);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const { paused, setPaused } = useExperiencePreferences();
+  const pathname = usePathname();
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const { scrollY } = useScroll();
 
-  const searchParams = useSearchParams();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const compact = latest > 48;
+    setScrolled((current) => (current === compact ? current : compact));
+  });
 
-  const adminLogin = searchParams.get("admin_login") === "true";
+  useEffect(() => {
+    setOpen(false);
+    setHovered(null);
+    setActive(
+      pathname === "/tech-stack"
+        ? 1
+        : pathname.startsWith("/projects")
+          ? 2
+          : pathname === "/about-us"
+            ? 3
+            : pathname === "/"
+              ? 0
+              : null,
+    );
+    if (pathname !== "/") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const index = entry.target.classList.contains("hero")
+            ? 0
+            : links.findIndex((link) => link.section === entry.target.id);
+          if (index >= 0) setActive(index);
+        }
+      },
+      { rootMargin: "-15% 0px -65% 0px", threshold: 0 },
+    );
+    for (const link of links) {
+      const section = document.getElementById(link.section);
+      if (section) observer.observe(section);
+    }
+    const hero = document.querySelector(".hero");
+    if (hero) observer.observe(hero);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6 z-50">
-      <nav className="hidden text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 bg-transparent">
-        <Link href={Routes.LandingPage}>
-          <Image src={NMTLogo} alt="NMT Logo" className="h-8 w-8" />
-        </Link>
-        {navRoutes.map((route) => (
-          <NavLink key={route.path} route={route} />
-        ))}
-      </nav>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Link
-              href={Routes.LandingPage}
-              className="flex items-center gap-2 w-44"
-            >
-              <Image src={NMTLogo} alt="NMT Logo" className="h-8 w-8" />
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <m.header
+          className="site-header"
+          data-scrolled={scrolled}
+          animate={{ y: scrolled ? -4 : 0 }}
+          transition={{ type: "spring", stiffness: 280, damping: 32 }}
+        >
+          <div className="shell header-inner">
+            <Link href="/" aria-label="NMT Solutions home" className="brand">
               <NMTTextLogo />
             </Link>
-            {navRoutes.map((route) => (
-              <NavLink key={route.path} route={route} />
-            ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
-      {adminLogin && (
-        <div className="flex w-full md:w-auto items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 bg-transparent">
-          <form className="ml-auto flex-1 sm:flex-initial">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+            <nav
+              aria-label="Main navigation"
+              className="desktop-nav"
+              onPointerLeave={() => setHovered(null)}
+            >
+              <m.span
+                className="nav-selection"
+                aria-hidden="true"
+                animate={{
+                  x: `${(hovered ?? active ?? 0) * 100}%`,
+                  opacity: hovered !== null || active !== null ? 1 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 350, damping: 34 }}
               />
+              {links.map((link, index) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="nav-item"
+                    data-active={index === active}
+                    aria-current={
+                      pathname === link.href
+                        ? "page"
+                        : pathname === "/" && index === active
+                          ? "location"
+                          : undefined
+                    }
+                    onPointerEnter={() => setHovered(index)}
+                    onFocus={() => setHovered(index)}
+                    onBlur={() => setHovered(null)}
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="header-actions">
+              <button
+                className="nav-motion-toggle"
+                aria-pressed={paused}
+                aria-label={
+                  paused
+                    ? "Resume background animation"
+                    : "Pause background animation"
+                }
+                onClick={() => setPaused((value) => !value)}
+              >
+                {paused ? (
+                  <Play size={15} aria-hidden="true" />
+                ) : (
+                  <Pause size={15} aria-hidden="true" />
+                )}
+              </button>
+              <a className="header-contact" href="/#contact">
+                <span>Contact us</span>
+                <span className="action-icon">
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </span>
+              </a>
+              <button
+                ref={menuButton}
+                className="menu-toggle"
+                aria-expanded={open}
+                aria-controls="mobile-navigation"
+                aria-label={open ? "Close navigation" : "Open navigation"}
+                onClick={() => setOpen((value) => !value)}
+              >
+                {open ? (
+                  <X size={20} aria-hidden="true" />
+                ) : (
+                  <Menu size={20} aria-hidden="true" />
+                )}
+              </button>
             </div>
-          </form>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
-      )}
-    </header>
+          </div>
+          <nav
+            id="mobile-navigation"
+            aria-label="Mobile navigation"
+            className="mobile-nav"
+            hidden={!open}
+          >
+            {links.map((link) => {
+              const Icon = link.icon;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                >
+                  <span>
+                    <Icon size={18} aria-hidden="true" />
+                    {link.label}
+                  </span>
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </Link>
+              );
+            })}
+            <a href="/#contact" onClick={() => setOpen(false)}>
+              Contact us
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </nav>
+        </m.header>
+      </MotionConfig>
+    </LazyMotion>
   );
-};
-
-export default Header;
+}

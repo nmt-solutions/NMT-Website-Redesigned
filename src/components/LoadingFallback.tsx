@@ -1,11 +1,19 @@
-import { Loader2 } from "lucide-react";
-import React from "react";
+import { LoadingSignal } from "./revamp/LoadingSignal";
 
 const LoadingFallback = () => {
   return (
-    <div className="flex items-center gap-3 justify-center h-48 bg-muted rounded-md">
-      <Loader2 className="animate-spin text-primary" />
-      <span>Loading Resources...</span>
+    <div
+      className="loading-state"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <LoadingSignal />
+      <p>Loading content</p>
+      <div className="loading-skeleton" aria-hidden="true">
+        <span />
+        <span />
+      </div>
     </div>
   );
 };
